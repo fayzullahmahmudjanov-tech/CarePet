@@ -1,18 +1,927 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/paw.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CarePet — Compassionate Veterinary Care</title>
-    <meta property="og:title" content="CarePet — Compassionate Veterinary Care" />
-    <meta property="og:description" content="Modern veterinary care for your beloved pets. Book appointments, find specialists, and get 24/7 emergency support." />
-    <meta property="og:image" content="https://bolt.new/static/og_default.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://bolt.new/static/og_default.png" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CarePet — Compassionate Veterinary Care</title>
+  <meta name="description" content="Modern veterinary care for your beloved pets. Book appointments, find specialists, and get 24/7 emergency support." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2322bb8a'%3E%3Ccircle cx='11' cy='4' r='2'/%3E%3Ccircle cx='18' cy='8' r='2'/%3E%3Ccircle cx='20' cy='16' r='2'/%3E%3Cpath d='M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+<body>
+  <!-- ============ NAVBAR ============ -->
+  <header id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="logo" onclick="navigateTo('home');return false;">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z"/></svg>
+        <span>Care<span class="logo-accent">Pet</span></span>
+      </a>
+
+      <nav class="nav-menu" id="navMenu">
+        <ul>
+          <li><a href="#home" class="nav-link active" data-page="home" onclick="navigateTo('home');return false;">Home</a></li>
+          <li><a href="#services" class="nav-link" data-page="services" onclick="navigateTo('services');return false;">Services</a></li>
+          <li><a href="#veterinarians" class="nav-link" data-page="veterinarians" onclick="navigateTo('veterinarians');return false;">Veterinarians</a></li>
+          <li><a href="#pricing" class="nav-link" data-page="pricing" onclick="navigateTo('pricing');return false;">Pricing</a></li>
+          <li><a href="#appointment" class="nav-link" data-page="appointment" onclick="navigateTo('appointment');return false;">Appointment</a></li>
+          <li><a href="#my-pets" class="nav-link" data-page="my-pets" onclick="navigateTo('my-pets');return false;">My Pets</a></li>
+          <li><a href="#emergency" class="nav-link emergency-link" data-page="emergency" onclick="navigateTo('emergency');return false;">Emergency</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="darkModeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+
+        <div class="notification-wrapper">
+          <button class="icon-btn notification-btn" id="notificationBtn" aria-label="Notifications" title="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="notification-badge" id="notificationBadge">2</span>
+          </button>
+          <div class="notification-dropdown" id="notificationDropdown">
+            <div class="notification-header">
+              <h3>Notifications</h3>
+              <button class="notification-mark-all" onclick="markAllNotificationsRead()">Mark all read</button>
+            </div>
+            <ul class="notification-list" id="notificationList"></ul>
+          </div>
+        </div>
+
+        <button class="btn-signin" id="signinBtn" onclick="openAuthModal('login')">Sign In</button>
+        <div class="user-menu hidden" id="userMenu">
+          <button class="user-avatar-btn" id="userAvatarBtn">
+            <span class="user-avatar" id="userAvatar">J</span>
+            <span class="user-name" id="userNameDisplay">Jane</span>
+          </button>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-dropdown-header">
+              <p class="user-dropdown-name" id="userDropdownName">Jane Smith</p>
+              <p class="user-dropdown-email" id="userDropdownEmail">jane@example.com</p>
+            </div>
+            <button class="user-dropdown-item" onclick="navigateTo('my-pets')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+              My Pets
+            </button>
+            <button class="user-dropdown-item user-dropdown-logout" onclick="logout()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Log out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+      <!-- ============ MAIN CONTENT ============ -->
+      <main>
+      <!-- ============ HOME / HERO ============ -->
+      <section id="home" class="page page-active">
+        <div class="hero">
+          <div class="hero-bg-deco"></div>
+          <div class="container">
+            <div class="hero-grid">
+              <div class="hero-content">
+                <span class="badge badge-brand">
+                  <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z"/></svg>
+                  Compassionate care since 2015
+                </span>
+                <h1 class="hero-title">Your pet deserves <span class="text-brand">expert care</span>, every step of the way</h1>
+                <p class="hero-subtitle">From routine check-ups to emergency surgery, our team of specialists provides modern, compassionate veterinary care in a calm, welcoming environment.</p>
+                <div class="hero-actions">
+                  <button class="btn btn-primary" onclick="navigateTo('appointment')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Book Appointment
+                  </button>
+                  <button class="btn btn-secondary" onclick="navigateTo('services')">Explore Services</button>
+                </div>
+                <div class="hero-social-proof">
+                  <div class="hero-avatars">
+                    <img src="https://images.pexels.com/photos/29995629/pexels-photo-29995629.jpeg?auto=compress&cs=tinysrgb&h=80&w=80" alt="Dr. Sarah Mitchell" class="hero-avatar" />
+                    <img src="https://images.pexels.com/photos/35681211/pexels-photo-35681211.jpeg?auto=compress&cs=tinysrgb&h=80&w=80" alt="Dr. James Chen" class="hero-avatar" />
+                    <img src="https://images.pexels.com/photos/33680700/pexels-photo-33680700.jpeg?auto=compress&cs=tinysrgb&h=80&w=80" alt="Dr. Emily Rodriguez" class="hero-avatar" />
+                    <img src="https://images.pexels.com/photos/14950779/pexels-photo-14950779.jpeg?auto=compress&cs=tinysrgb&h=80&w=80" alt="Dr. Michael Okafor" class="hero-avatar" />
+                  </div>
+                  <div>
+                    <div class="hero-stars">
+                      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+                    </div>
+                    <p class="hero-rating-text"><strong>4.9/5</strong> from 1,200+ happy pet owners</p>
+                  </div>
+                </div>
+              </div>
+              <div class="hero-image-wrap">
+                <img src="https://images.pexels.com/photos/6235231/pexels-photo-6235231.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Veterinarian examining a dog with a stethoscope in a modern clinic" class="hero-image" />
+                <div class="hero-floating-card hero-floating-1">
+                  <div class="hero-floating-icon icon-shield">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                  <div>
+                    <p class="hero-floating-value">12k+</p>
+                    <p class="hero-floating-label">Pets cared for</p>
+                  </div>
+                </div>
+                <div class="hero-floating-card hero-floating-2">
+                  <div class="hero-floating-icon icon-award">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                  </div>
+                  <div>
+                    <p class="hero-floating-value">24/7</p>
+                    <p class="hero-floating-label">Emergency support</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <section class="stats-section">
+          <div class="container">
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z"/></svg>
+                </div>
+                <p class="stat-value">12,000+</p>
+                <p class="stat-label">Pets Treated</p>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+                </div>
+                <p class="stat-value">25+</p>
+                <p class="stat-label">Expert Vets</p>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <p class="stat-value">24/7</p>
+                <p class="stat-label">Emergency Care</p>
+              </div>
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <p class="stat-value">4.9/5</p>
+                <p class="stat-label">Client Rating</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Services Preview -->
+        <section class="section">
+          <div class="container">
+            <div class="section-header">
+              <span class="badge badge-brand">Our Services</span>
+              <h2 class="section-title">Complete care under one roof</h2>
+              <p class="section-subtitle">From preventive wellness to advanced surgery, we offer a full range of veterinary services tailored to your pet's needs.</p>
+            </div>
+            <div class="services-grid" id="homeServicesGrid"></div>
+          </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section class="why-section">
+          <div class="container">
+            <div class="why-grid">
+              <div class="why-image-wrap">
+                <img src="https://images.pexels.com/photos/7468978/pexels-photo-7468978.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" alt="Veterinarian performing a checkup on a dog in a modern clinic" class="why-image" />
+                <div class="why-badge">
+                  <p class="why-badge-value">98%</p>
+                  <p class="why-badge-label">Client satisfaction rate</p>
+                </div>
+              </div>
+              <div class="why-content">
+                <span class="badge badge-accent">Why CarePet</span>
+                <h2 class="section-title">We treat your pets like family</h2>
+                <p class="section-subtitle">Our commitment goes beyond medical expertise. We create a stress-free experience for both you and your pet, with transparent pricing and genuine compassion.</p>
+                <ul class="why-list">
+                  <li>
+                    <div class="why-list-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    </div>
+                    <div>
+                      <h3>Board-Certified Specialists</h3>
+                      <p>Our veterinarians are certified in multiple specialties with years of experience.</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="why-list-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                      <h3>24/7 Emergency Availability</h3>
+                      <p>Day or night, our emergency team is ready when your pet needs urgent care.</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="why-list-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                      <h3>Transparent Pricing</h3>
+                      <p>No surprise bills. Clear pricing and flexible membership plans for every budget.</p>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="why-list-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+                    </div>
+                    <div>
+                      <h3>Fear-Free Environment</h3>
+                      <p>Calming spaces and gentle handling techniques to reduce pet anxiety.</p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="section">
+          <div class="container">
+            <div class="section-header">
+              <span class="badge badge-brand">Testimonials</span>
+              <h2 class="section-title">Loved by pets and their humans</h2>
+            </div>
+            <div class="testimonials-grid">
+              <article class="testimonial-card card-hover">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="testimonial-quote"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+                <p class="testimonial-text">"CarePet has been a lifesaver for my two rescues. The team is incredibly compassionate and the online booking makes everything so easy."</p>
+                <div class="testimonial-author">
+                  <img src="https://images.pexels.com/photos/29995629/pexels-photo-29995629.jpeg?auto=compress&cs=tinysrgb&h=80&w=80" alt="Jennifer Adams" class="testimonial-avatar" />
+                  <div>
+                    <p class="testimonial-name">Jennifer Adams</p>
+                    <p class="testimonial-pet">Owner of Buddy & Luna</p>
+                  </div>
+                  <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                </div>
+              </article>
+              <article class="testimonial-card card-hover">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="testimonial-quote"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+                <p class="testimonial-text">"When Rocky had an emergency at 2 AM, Dr. Okafor was there within minutes. The level of care and follow-up was outstanding."</p>
+                <div class="testimonial-author">
+                  <img src="https://images.pexels.com/photos/35681211/pexels-photo-35681211.jpeg?auto=compress&cs=tinysrgb&h=80&w=80" alt="Marcus Thompson" class="testimonial-avatar" />
+                  <div>
+                    <p class="testimonial-name">Marcus Thompson</p>
+                    <p class="testimonial-pet">Owner of Rocky</p>
+                  </div>
+                  <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                </div>
+              </article>
+              <article class="testimonial-card card-hover">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="testimonial-quote"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+                <p class="testimonial-text">"Dr. Patel is the only vet in town who truly understands my rabbit. The exotic pet expertise here is unmatched."</p>
+                <div class="testimonial-author">
+                  <img src="https://images.pexels.com/photos/37272329/pexels-photo-37272329.png?auto=compress&cs=tinysrgb&h=80&w=80" alt="Priya Sharma" class="testimonial-avatar" />
+                  <div>
+                    <p class="testimonial-name">Priya Sharma</p>
+                    <p class="testimonial-pet">Owner of Mochi</p>
+                  </div>
+                  <div class="testimonial-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="section">
+          <div class="container">
+            <div class="cta-banner">
+              <div class="cta-deco-1"></div>
+              <div class="cta-deco-2"></div>
+              <div class="cta-content">
+                <h2>Ready to give your pet the best care?</h2>
+                <p>Book an appointment today or explore our affordable care plans. Your pet's health is our priority.</p>
+                <div class="cta-actions">
+                  <button class="btn btn-white" onclick="navigateTo('appointment')">Book Now</button>
+                  <button class="btn btn-outline-white" id="ctaSignup" onclick="openAuthModal('register')">Sign Up Free</button>
+                  <button class="btn btn-outline-white" onclick="navigateTo('emergency')">Emergency</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ SERVICES PAGE ============ -->
+      <section id="services" class="page">
+        <div class="page-header">
+          <div class="container">
+            <span class="badge badge-brand">Our Services</span>
+            <h1 class="page-title">Veterinary services for every need</h1>
+            <p class="page-subtitle">Comprehensive medical care delivered with compassion and expertise. Every service is backed by modern equipment and years of experience.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <div class="services-detailed-grid" id="servicesDetailedGrid"></div>
+          </div>
+        </section>
+        <section class="process-section">
+          <div class="container">
+            <div class="section-header">
+              <h2 class="section-title">How it works</h2>
+              <p class="section-subtitle">Getting started with CarePet is simple and stress-free.</p>
+            </div>
+            <div class="process-grid">
+              <div class="process-card">
+                <span class="process-number">01</span>
+                <h3>Book Online</h3>
+                <p>Choose a service, vet, and time that works for you in under 2 minutes.</p>
+              </div>
+              <div class="process-card">
+                <span class="process-number">02</span>
+                <h3>Visit the Clinic</h3>
+                <p>Meet our friendly team in a calm, pet-friendly environment designed for comfort.</p>
+              </div>
+              <div class="process-card">
+                <span class="process-number">03</span>
+                <h3>Follow-Up Care</h3>
+                <p>Receive personalised care plans, reminders, and ongoing support through your portal.</p>
+              </div>
+            </div>
+            <div class="process-cta">
+              <button class="btn btn-primary" onclick="navigateTo('appointment')">Book Your Appointment</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ VETERINARIANS PAGE ============ -->
+      <section id="veterinarians" class="page">
+        <div class="page-header">
+          <div class="container">
+            <span class="badge badge-brand">Our Team</span>
+            <h1 class="page-title">Meet our veterinarians</h1>
+            <p class="page-subtitle">Board-certified specialists dedicated to your pet's health and wellbeing. Find the right vet for your companion.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <div class="filter-bar">
+              <div class="filter-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="vetSearch" placeholder="Search by name or specialty..." aria-label="Search veterinarians" />
+              </div>
+              <div class="filter-chips" id="specialtyChips"></div>
+              <div class="filter-availability">
+                <button class="filter-toggle active" data-availability="all" onclick="filterAvailability('all')">All</button>
+                <button class="filter-toggle" data-availability="available" onclick="filterAvailability('available')">Available Now</button>
+              </div>
+            </div>
+            <p class="results-count" id="vetResultsCount"></p>
+            <div class="vets-grid" id="vetsGrid"></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ PRICING PAGE ============ -->
+      <section id="pricing" class="page">
+        <div class="page-header">
+          <div class="container">
+            <span class="badge badge-brand">Pricing</span>
+            <h1 class="page-title">Simple, transparent pricing</h1>
+            <p class="page-subtitle">Choose a care plan that fits your pet and budget. No hidden fees, cancel anytime.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <div class="pricing-grid" id="pricingGrid"></div>
+            <div class="pricing-trust">
+              <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                No hidden fees
+              </div>
+              <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                30-day money-back guarantee
+              </div>
+              <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Cancel anytime
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="faq-section">
+          <div class="container">
+            <h2 class="section-title" style="text-align:center;margin-bottom:32px;">Frequently asked questions</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <h3>Can I switch plans later?</h3>
+                <p>Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately and we prorate the difference.</p>
+              </div>
+              <div class="faq-item">
+                <h3>What if my pet needs emergency care?</h3>
+                <p>Emergency visits are included in the Elite plan. Essential and Complete Protection plans receive discounted emergency rates.</p>
+              </div>
+              <div class="faq-item">
+                <h3>Do plans cover multiple pets?</h3>
+                <p>Each plan covers one pet. Additional pets receive a 15% discount on their plan subscription.</p>
+              </div>
+              <div class="faq-item">
+                <h3>Are pre-existing conditions covered?</h3>
+                <p>Our plans focus on preventive and routine care. We treat pre-existing conditions at standard rates, regardless of plan membership.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ APPOINTMENT PAGE ============ -->
+      <section id="appointment" class="page">
+        <div class="page-header">
+          <div class="container">
+            <span class="badge badge-brand">Book Appointment</span>
+            <h1 class="page-title">Schedule your visit</h1>
+            <p class="page-subtitle">Book in four quick steps. Choose your pet, service, vet, and time — all in under two minutes.</p>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container container-sm">
+            <!-- Progress -->
+            <div class="progress-bar" id="appointmentProgress">
+              <div class="progress-step active" data-step="1">
+                <div class="progress-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z"/></svg>
+                </div>
+                <span>Pet</span>
+              </div>
+              <div class="progress-line"></div>
+              <div class="progress-step" data-step="2">
+                <div class="progress-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+                </div>
+                <span>Service</span>
+              </div>
+              <div class="progress-line"></div>
+              <div class="progress-step" data-step="3">
+                <div class="progress-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <span>Schedule</span>
+              </div>
+              <div class="progress-line"></div>
+              <div class="progress-step" data-step="4">
+                <div class="progress-circle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+                </div>
+                <span>Contact</span>
+              </div>
+            </div>
+
+            <!-- Form -->
+            <form class="form-card" id="appointmentForm" onsubmit="return false;" novalidate>
+              <!-- Step 1 -->
+              <div class="form-step active" data-step="1">
+                <h2 class="form-step-title">Tell us about your pet</h2>
+                <div class="existing-pets" id="existingPetsPicker"></div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="appt-pet-name">Pet Name *</label>
+                    <input type="text" id="appt-pet-name" name="petName" placeholder="e.g. Max" required />
+                    <span class="form-error" id="error-appt-pet-name"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="appt-pet-type">Pet Type *</label>
+                    <select id="appt-pet-type" name="petType" required>
+                      <option value="">Select type...</option>
+                      <option value="Dog">Dog</option>
+                      <option value="Cat">Cat</option>
+                      <option value="Rabbit">Rabbit</option>
+                      <option value="Bird">Bird</option>
+                      <option value="Reptile">Reptile</option>
+                      <option value="Other">Other</option>
+                    </select>
+                    <span class="form-error" id="error-appt-pet-type"></span>
+                  </div>
+                </div>
+                <div class="form-nav">
+                  <span></span>
+                  <button type="button" class="btn btn-primary" onclick="appointmentNext()">Continue →</button>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="form-step" data-step="2">
+                <h2 class="form-step-title">Choose a service</h2>
+                <div class="service-picker-grid" id="servicePickerGrid"></div>
+                <span class="form-error" id="error-appt-service"></span>
+                <div class="form-nav">
+                  <button type="button" class="btn btn-ghost" onclick="appointmentBack()">← Back</button>
+                  <button type="button" class="btn btn-primary" onclick="appointmentNext()">Continue →</button>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="form-step" data-step="3">
+                <h2 class="form-step-title">Pick a vet and time</h2>
+                <div class="form-group">
+                  <label for="appt-vet">Veterinarian *</label>
+                  <select id="appt-vet" name="vet" required>
+                    <option value="">Any available vet</option>
+                  </select>
+                  <span class="form-error" id="error-appt-vet"></span>
+                </div>
+                <div class="form-group">
+                  <label for="appt-date">Date *</label>
+                  <input type="date" id="appt-date" name="date" required />
+                  <span class="form-error" id="error-appt-date"></span>
+                </div>
+                <div class="form-group">
+                  <span class="label-text">Time Slot *</span>
+                  <div class="time-slots" id="timeSlots"></div>
+                  <span class="form-error" id="error-appt-time"></span>
+                </div>
+                <div class="form-nav">
+                  <button type="button" class="btn btn-ghost" onclick="appointmentBack()">← Back</button>
+                  <button type="button" class="btn btn-primary" onclick="appointmentNext()">Continue →</button>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="form-step" data-step="4">
+                <h2 class="form-step-title">Your contact details</h2>
+                <div class="form-group">
+                  <label for="appt-owner-name">Full Name *</label>
+                  <input type="text" id="appt-owner-name" name="ownerName" placeholder="Jane Smith" required />
+                  <span class="form-error" id="error-appt-owner-name"></span>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="appt-email">Email *</label>
+                    <input type="email" id="appt-email" name="email" placeholder="jane@example.com" required />
+                    <span class="form-error" id="error-appt-email"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="appt-phone">Phone *</label>
+                    <input type="tel" id="appt-phone" name="phone" placeholder="(503) 555-0100" required />
+                    <span class="form-error" id="error-appt-phone"></span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="appt-notes">Additional Notes (optional)</label>
+                  <textarea id="appt-notes" name="notes" rows="3" placeholder="Any symptoms, concerns, or special requirements..."></textarea>
+                </div>
+                <div class="form-nav">
+                  <button type="button" class="btn btn-ghost" onclick="appointmentBack()">← Back</button>
+                  <button type="button" class="btn btn-primary" onclick="submitAppointment()">✓ Confirm Booking</button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Confirmation -->
+            <div class="confirmation-card hidden" id="appointmentConfirmation">
+              <div class="confirmation-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h2>Appointment Confirmed!</h2>
+              <p>We've sent a confirmation to <strong id="confirmEmail"></strong>. You'll receive a reminder 24 hours before your visit.</p>
+              <div class="confirmation-details" id="confirmationDetails"></div>
+              <button class="btn btn-primary" onclick="resetAppointment()">↻ Book Another Appointment</button>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ MY PETS PAGE ============ -->
+      <section id="my-pets" class="page">
+        <div class="page-header">
+          <div class="container">
+            <div class="mypets-header">
+              <div>
+                <span class="badge badge-brand">My Pets</span>
+                <h1 class="page-title">Your furry family</h1>
+                <p class="page-subtitle">Manage your pets' profiles, vaccination records, and health notes.</p>
+              </div>
+              <button class="btn btn-primary" id="addPetBtn" onclick="openAddPetModal()">+ Add Pet</button>
+            </div>
+          </div>
+        </div>
+        <section class="section">
+          <div class="container">
+            <!-- Sign-in gate -->
+            <div class="signin-gate hidden" id="signinGate">
+              <div class="signin-gate-card">
+                <div class="signin-gate-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z"/></svg>
+                </div>
+                <h2>Sign in to manage your pets</h2>
+                <p>Create an account or sign in to add pets, track vaccinations, and view their health records.</p>
+                <button class="btn btn-primary" onclick="openAuthModal('login')">Sign In / Sign Up</button>
+              </div>
+            </div>
+            <!-- Pets grid -->
+            <div class="pets-grid" id="petsGrid"></div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ============ EMERGENCY PAGE ============ -->
+      <section id="emergency" class="page">
+        <div class="emergency-banner">
+          <div class="container">
+            <div class="emergency-banner-content">
+              <div class="emergency-banner-left">
+                <div class="emergency-banner-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.1 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.1a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div>
+                  <h1>24/7 Emergency Help</h1>
+                  <p>We're here when your pet needs us most</p>
+                </div>
+              </div>
+              <a href="tel:+15035550199" class="btn btn-white">📞 Call (503) 555-0199</a>
+            </div>
+          </div>
+        </div>
+
+        <section class="section">
+          <div class="container">
+            <div class="emergency-info-grid">
+              <div class="info-card card-hover">
+                <div class="info-card-icon icon-clock">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3>Always Available</h3>
+                <p>Our emergency department operates 24 hours a day, 7 days a week, including all holidays. No appointment needed.</p>
+              </div>
+              <div class="info-card card-hover">
+                <div class="info-card-icon icon-pin">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <h3>Our Location</h3>
+                <p>128 Greenfield Avenue, Portland, OR 97201. Free emergency parking available at the rear entrance.</p>
+              </div>
+              <div class="info-card card-hover">
+                <div class="info-card-icon icon-stetho">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></svg>
+                </div>
+                <h3>What to Expect</h3>
+                <p>A triage nurse will assess your pet immediately upon arrival. Critical cases are seen first — we'll keep you informed at every step.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" style="padding-top:0;">
+          <div class="container container-sm">
+            <div class="emergency-form-card">
+              <h2>Report an Emergency</h2>
+              <p>Fill out this form and our emergency team will call you back within 5 minutes. For immediate assistance, call <a href="tel:+15035550199" class="emergency-phone-link">(503) 555-0199</a>.</p>
+              <div class="emergency-alert">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.1 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.1a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <p>If your pet is not breathing, has severe bleeding, or is unconscious, call us immediately instead of filling out this form.</p>
+              </div>
+              <form id="emergencyForm" onsubmit="return false;" novalidate>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="em-owner">Your Name *</label>
+                    <input type="text" id="em-owner" name="ownerName" placeholder="Jane Smith" required />
+                    <span class="form-error" id="error-em-owner"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="em-phone">Phone Number *</label>
+                    <input type="tel" id="em-phone" name="phone" placeholder="(503) 555-0100" required />
+                    <span class="form-error" id="error-em-phone"></span>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="em-petname">Pet Name *</label>
+                    <input type="text" id="em-petname" name="petName" placeholder="Max" required />
+                    <span class="form-error" id="error-em-petname"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="em-petspecies">Pet Species *</label>
+                    <input type="text" id="em-petspecies" name="petSpecies" placeholder="Dog, Cat, Rabbit..." required />
+                    <span class="form-error" id="error-em-petspecies"></span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <span class="label-text">Type of Emergency *</span>
+                  <div class="emergency-types-grid" id="emergencyTypesGrid"></div>
+                  <span class="form-error" id="error-em-type"></span>
+                </div>
+                <div class="form-group">
+                  <label for="em-desc">Describe the Situation *</label>
+                  <textarea id="em-desc" name="description" rows="4" placeholder="What happened? When did symptoms start? Is your pet conscious and breathing?" required></textarea>
+                  <span class="form-error" id="error-em-desc"></span>
+                </div>
+                <div class="form-group">
+                  <label for="em-address">Your Address (for house calls, optional)</label>
+                  <input type="text" id="em-address" name="address" placeholder="123 Main St, Portland, OR" />
+                </div>
+                <button type="button" class="btn btn-danger w-full" onclick="submitEmergency()">🚨 Send Emergency Request</button>
+              </form>
+            </div>
+
+            <!-- Emergency Confirmation -->
+            <div class="confirmation-card hidden" id="emergencyConfirmation">
+              <div class="confirmation-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h2>Emergency Request Received</h2>
+              <p>Our emergency team has been notified. A veterinarian will call <strong id="emConfirmPhone"></strong> within 5 minutes.</p>
+              <div class="emergency-confirm-alert">
+                <p>📞 If the situation is critical, call us now: (503) 555-0199</p>
+              </div>
+              <div class="confirmation-details" id="emConfirmationDetails"></div>
+              <button class="btn btn-primary" onclick="resetEmergency()">↻ Submit Another Request</button>
+            </div>
+          </div>
+        </section>
+      </section>
+      </main>
+
+      <!-- ============ FOOTER ============ -->
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <a href="#home" class="logo" onclick="navigateTo('home');return false;">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z"/></svg>
+                <span>Care<span class="logo-accent">Pet</span></span>
+              </a>
+              <p class="footer-description">Compassionate, modern veterinary care for the pets you love. Available 24/7 for emergencies and routine care alike.</p>
+              <div class="footer-social">
+                <a href="#" onclick="return false;" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="#" onclick="return false;" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                <a href="#" onclick="return false;" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+                <a href="#" onclick="return false;" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon fill="#fff" points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="#home" onclick="navigateTo('home');return false;">Home</a></li>
+                <li><a href="#services" onclick="navigateTo('services');return false;">Services</a></li>
+                <li><a href="#veterinarians" onclick="navigateTo('veterinarians');return false;">Veterinarians</a></li>
+                <li><a href="#pricing" onclick="navigateTo('pricing');return false;">Pricing</a></li>
+                <li><a href="#appointment" onclick="navigateTo('appointment');return false;">Book Appointment</a></li>
+                <li><a href="#my-pets" onclick="navigateTo('my-pets');return false;">My Pets</a></li>
+                <li><a href="#emergency" onclick="navigateTo('emergency');return false;">Emergency Help</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h3>Contact</h3>
+              <ul class="footer-contact">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;margin-top:2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> 128 Greenfield Avenue<br>Portland, OR 97201</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <a href="tel:+15035550100">(503) 555-0100</a></li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <a href="mailto:hello@carepet.com">hello@carepet.com</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h3>Hours</h3>
+              <ul class="footer-hours">
+                <li><span>Mon – Fri</span> <strong>8AM – 8PM</strong></li>
+                <li><span>Saturday</span> <strong>9AM – 6PM</strong></li>
+                <li><span>Sunday</span> <strong>10AM – 4PM</strong></li>
+              </ul>
+              <div class="footer-emergency-badge">
+                <span class="pulse-dot"></span>
+                Emergency: 24/7
+              </div>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>© 2026 CarePet Veterinary Clinic. All rights reserved.</p>
+            <p>This is an educational demo project. Not a real medical service.</p>
+          </div>
+        </div>
+      </footer>
+
+      <!-- ============ AUTH MODAL ============ -->
+      <div class="modal-overlay hidden" id="authModal">
+        <div class="modal-overlay-bg" onclick="closeAuthModal()"></div>
+        <div class="modal modal-auth">
+          <button class="modal-close" onclick="closeAuthModal()" aria-label="Close dialog">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <div class="auth-modal-header">
+            <div class="auth-modal-logo">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:32px;height:32px;"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.76 5.46 16.67A3.5 3.5 0 0 1 9 10Z"/></svg>
+            </div>
+            <h2 id="authModalTitle">Welcome Back</h2>
+            <p id="authModalSubtitle">Sign in to manage your pets and appointments</p>
+          </div>
+          <form id="authForm" onsubmit="return false;" novalidate>
+            <div class="form-group auth-name-field hidden" id="authNameField">
+              <label for="auth-name">Full Name</label>
+              <input type="text" id="auth-name" name="name" placeholder="Jane Smith" />
+              <span class="form-error" id="error-auth-name"></span>
+            </div>
+            <div class="form-group">
+              <label for="auth-email">Email Address</label>
+              <input type="email" id="auth-email" name="email" placeholder="jane@example.com" required />
+              <span class="form-error" id="error-auth-email"></span>
+            </div>
+            <div class="form-group">
+              <label for="auth-password">Password</label>
+              <div class="password-wrap">
+                <input type="password" id="auth-password" name="password" placeholder="••••••••" required />
+                <button type="button" class="password-toggle" onclick="togglePassword('auth-password', this)" aria-label="Show/hide password">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <span class="form-error" id="error-auth-password"></span>
+            </div>
+            <button type="button" class="btn btn-primary w-full" onclick="submitAuth()">Sign In</button>
+          </form>
+          <p class="auth-switch">Don't have an account? <button onclick="switchAuthMode('register')">Sign up</button></p>
+        </div>
+      </div>
+
+      <!-- ============ ADD PET MODAL ============ -->
+      <div class="modal-overlay hidden" id="addPetModal">
+        <div class="modal-overlay-bg" onclick="closeAddPetModal()"></div>
+        <div class="modal modal-pet">
+          <button class="modal-close" onclick="closeAddPetModal()" aria-label="Close form">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <h2>Add a new pet</h2>
+          <p class="modal-subtitle">Fill in your pet's details to create their profile.</p>
+          <form id="addPetForm" onsubmit="return false;" novalidate>
+            <div class="form-group">
+              <span class="label-text">Choose a photo</span>
+              <div class="pet-photo-picker" id="petPhotoPicker"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pet-form-name">Pet Name *</label>
+                <input type="text" id="pet-form-name" placeholder="e.g. Buddy" required />
+                <span class="form-error" id="error-pet-form-name"></span>
+              </div>
+              <div class="form-group">
+                <label for="pet-form-species">Species *</label>
+                <select id="pet-form-species" required>
+                  <option value="Dog">Dog</option>
+                  <option value="Cat">Cat</option>
+                  <option value="Rabbit">Rabbit</option>
+                  <option value="Bird">Bird</option>
+                  <option value="Reptile">Reptile</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pet-form-breed">Breed *</label>
+                <input type="text" id="pet-form-breed" placeholder="e.g. Golden Retriever" required />
+                <span class="form-error" id="error-pet-form-breed"></span>
+              </div>
+              <div class="form-group">
+                <label for="pet-form-age">Age *</label>
+                <input type="text" id="pet-form-age" placeholder="e.g. 3 years" required />
+                <span class="form-error" id="error-pet-form-age"></span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="pet-form-weight">Weight *</label>
+              <input type="text" id="pet-form-weight" placeholder="e.g. 25 kg" required />
+              <span class="form-error" id="error-pet-form-weight"></span>
+            </div>
+            <div class="form-group">
+              <label for="pet-form-notes">Notes (optional)</label>
+              <textarea id="pet-form-notes" rows="2" placeholder="Any health concerns or behavioural notes..."></textarea>
+            </div>
+            <button type="button" class="btn btn-primary w-full" onclick="submitAddPet()">+ Add Pet</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ============ VET PROFILE MODAL ============ -->
+      <div class="modal-overlay hidden" id="vetModal">
+        <div class="modal-overlay-bg" onclick="closeVetModal()"></div>
+        <div class="modal modal-vet" id="vetModalContent"></div>
+      </div>
+
+      <!-- ============ PET PROFILE MODAL ============ -->
+      <div class="modal-overlay hidden" id="petModal">
+        <div class="modal-overlay-bg" onclick="closePetModal()"></div>
+        <div class="modal modal-pet-profile" id="petModalContent"></div>
+      </div>
+
+      <!-- ============ TOAST CONTAINER ============ -->
+      <div class="toast-container" id="toastContainer"></div>
+
+      <script src="script.js"></script>
+    </body>
+    </html>
